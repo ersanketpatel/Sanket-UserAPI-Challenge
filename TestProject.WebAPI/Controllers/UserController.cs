@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TestProject.Core.Models;
-using TestProject.WebAPI.Models;
 using TestProject.WebAPI.Repository;
 
 namespace TestProject.WebAPI.Controllers
@@ -91,17 +90,6 @@ namespace TestProject.WebAPI.Controllers
             }
 
             return BadRequest("Invalid data model.");
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        public IActionResult VerifyEmail(string email)
-        {
-            if (!_userService.VerifyEmail(email))
-            {
-                return Json($"Email {email} is already in use.");
-            }
-
-            return Json(true);
         }
     }
 }
