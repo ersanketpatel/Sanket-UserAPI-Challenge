@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TestProject.WebAPI.Models;
-using TestProject.WebAPI.ViewModel;
+using TestProject.Core.Models;
+using TestProject.Core.ViewModel;
 
-namespace TestProject.WebAPI.Repository
+namespace TestProject.DAL.Repository
 {
     public interface IAccountRepository
     {

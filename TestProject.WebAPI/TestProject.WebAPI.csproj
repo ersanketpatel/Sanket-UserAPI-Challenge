@@ -44,12 +44,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BAL\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TestProject.Core\TestProject.Core.csproj" />
+    <ProjectReference Include="..\TestProject.DAL\TestProject.DAL.csproj" />
   </ItemGroup>
 
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TestProject.WebAPI.Models;
+using TestProject.Core.Models;
 using System.Linq;
-using TestProject.WebAPI.ViewModel;
+using TestProject.Core.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace TestProject.WebAPI.Repository
@@ -20,15 +20,10 @@ namespace TestProject.WebAPI.Repository
         {
             if (_context != null)
             {
-                var validateModel = ValidateEntityOnInsert(user);
+                await _context.User.AddAsync(user);
+                await _context.SaveChangesAsync();
 
-                if (validateModel.IsSuccess)
-                {
-                    await _context.User.AddAsync(user);
-                    await _context.SaveChangesAsync();
-
-                    return user.UserId;
-                }
+                return user.UserId;
             }
 
             return 0;
@@ -52,26 +47,26 @@ namespace TestProject.WebAPI.Repository
             return null;
         }
 
-        private ModelValidate ValidateEntityOnInsert(User user)
-        {
-            ModelValidate modelValidate = new ModelValidate();
+        //private ModelValidate ValidateEntityOnInsert(User user)
+        //{
+        //    ModelValidate modelValidate = new ModelValidate();
 
-            if (_context != null)
-            {
-                
-                //return await (from u in _context.User
-                //             where u.EmailId == emailID
-                //             select new UserViewModel
-                //             {
-                //                 Name = u.Name,
-                //                 EmailId = u.EmailId,
-                //                 MonthlySalary = u.MonthlySalary,
-                //                 MonthlyExpenses = u.MonthlyExpenses
-                //             }).AnyAsync();
-             }
+        //    if (_context != null)
+        //    {
 
-            return modelValidate;
-        }
+        //        //return await (from u in _context.User
+        //        //             where u.EmailId == emailID
+        //        //             select new UserViewModel
+        //        //             {
+        //        //                 Name = u.Name,
+        //        //                 EmailId = u.EmailId,
+        //        //                 MonthlySalary = u.MonthlySalary,
+        //        //                 MonthlyExpenses = u.MonthlyExpenses
+        //        //             }).AnyAsync();
+        //     }
+
+        //    return modelValidate;
+        //}
 
         public async Task<List<UserViewModel>> ListUsers()
         {
@@ -91,6 +86,6 @@ namespace TestProject.WebAPI.Repository
             return null;
         }
 
-        
+
     }
 }
