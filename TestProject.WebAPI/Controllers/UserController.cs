@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TestProject.Core.Models;
-using TestProject.WebAPI.Repository;
+using TestProject.DAL.Repository;
 
 namespace TestProject.WebAPI.Controllers
 {

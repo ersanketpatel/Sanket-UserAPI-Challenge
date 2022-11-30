@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModel;
 
-namespace TestProject.WebAPI.Repository
+namespace TestProject.DAL.Repository
 {
     public interface IUserRepository
     {

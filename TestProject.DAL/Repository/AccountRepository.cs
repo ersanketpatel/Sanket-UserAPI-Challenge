@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using TestProject.WebAPI.Models;
-using TestProject.WebAPI.ViewModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestProject.Core.Models;
+using TestProject.Core.ViewModel;
 
-namespace TestProject.WebAPI.Repository
+namespace TestProject.DAL.Repository
 {
     public class AccountRepository : IAccountRepository
     {
