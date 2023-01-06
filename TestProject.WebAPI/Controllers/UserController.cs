@@ -5,29 +5,28 @@ using TestProject.DAL.Repository;
 
 namespace TestProject.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : Controller
     {
-        IUserRepository userRepository;
-        public UserController(IUserRepository _userRepository)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UserController(IUnitOfWork unitOfWork)
         {
-            userRepository = _userRepository;
+            _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Get all users list
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("GetUserList")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> GetUserList()
         {
             try
             {
-                var userList = await userRepository.ListUsers();
-
-                if(userList == null)
-                {
-                    return NotFound();
-                }
-
+                var userList = await _unitOfWork.UserRepository.GetAll();
                 return Ok(userList);
             }
             catch (System.Exception)
@@ -36,18 +35,18 @@ namespace TestProject.WebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Get specific user detail by User Id.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         [HttpGet]
-        [Route("GetUserByID")]
-        public async Task<IActionResult> GetUserByID(decimal? userID)
-        {
-            if (userID == null)
-            {
-                return BadRequest("User ID mandatory to fetch details.");
-            }
-
+        [ApiVersion("1.0")]
+        public async Task<IActionResult> GetUserByID(long userID)
+        {            
             try
             {
-                var user = await userRepository.GetUser(userID);
+                var user = await _unitOfWork.UserRepository.GetByID(userID);
 
                 if (user == null)
                 {
@@ -62,30 +61,27 @@ namespace TestProject.WebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Add new User
+        /// </summary>
+        /// <param name="userModel"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("AddUser")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> AddUser([FromBody]User userModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var userID = await userRepository.CreateUser(userModel);
+                    await _unitOfWork.UserRepository.Add(userModel);
+                    await _unitOfWork.CompleteAsync();
 
-                    if(userID > 0)
-                    {
-                        return Ok(userID);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "");
-                        return NotFound();
-                    }
+                    return Ok("User Added successfully");
                 }
                 catch
                 {
                     return BadRequest("Somthing went wrong.");
-
                 }
             }
 

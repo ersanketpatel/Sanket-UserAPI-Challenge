@@ -5,10 +5,8 @@ using TestProject.Core.ViewModel;
 
 namespace TestProject.DAL.Repository
 {
-    public interface IAccountRepository
+    public interface IAccountRepository : IGenericRepository<Account>
     {
-        Task<decimal> CreateAccount(Account account);
 
-        Task<List<AccountViewModel>> GetAccounts();
     }
 }

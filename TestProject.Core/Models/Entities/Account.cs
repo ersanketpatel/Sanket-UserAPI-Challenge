@@ -5,8 +5,8 @@ namespace TestProject.Core.Models
 {
     public partial class Account
     {
-        public decimal AccountId { get; set; }
-        public decimal? UserId { get; set; }
+        public long AccountId { get; set; }
+        public long UserId { get; set; }
         public string AccountType { get; set; }
 
         public virtual User User { get; set; }

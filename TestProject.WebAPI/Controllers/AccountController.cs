@@ -1,34 +1,32 @@
 ﻿using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Mvc;
 using TestProject.Core.Models;
 using TestProject.DAL.Repository;
 
 namespace TestProject.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        IAccountRepository accountRepository;
-        public AccountController(IAccountRepository _accountRepository)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public AccountController(IUnitOfWork unitOfWork)
         {
-            accountRepository = _accountRepository;
+            _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Get all list of accounts detail.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("GetAccountList")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> GetAccountList()
         {
             try
             {
-                var accountList = await accountRepository.GetAccounts();
-
-                if (accountList == null)
-                {
-                    return NotFound();
-                }
-
+                var accountList = await _unitOfWork.AccountRepository.GetAll();
                 return Ok(accountList);
             }
             catch (System.Exception)
@@ -37,29 +35,27 @@ namespace TestProject.WebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// To Add new Account
+        /// </summary>
+        /// <param name="accountModel"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("AddAccount")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> AddAccount([FromBody] Account accountModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var accountID = await accountRepository.CreateAccount(accountModel);
+                    await _unitOfWork.AccountRepository.Add(accountModel);
+                    await _unitOfWork.CompleteAsync();
 
-                    if (accountID > 0)
-                    {
-                        return Ok(accountID);
-                    }
-                    else
-                    {
-                        return NotFound();
-                    }
+                    return Ok("Account Added successfully");
                 }
                 catch
                 {
                     return BadRequest("Somthing went wrong.");
-
                 }
             }
 

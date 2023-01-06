@@ -10,9 +10,9 @@ namespace TestProject.Core.Models
             Account = new HashSet<Account>();
         }
 
-        public decimal UserId { get; set; }
+        public long UserId { get; set; }
         public string Name { get; set; }
-        public string EmailId { get; set; }
+        public string EmailAddress { get; set; }
         public decimal? MonthlySalary { get; set; }
         public decimal? MonthlyExpenses { get; set; }
 

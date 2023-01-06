@@ -6,8 +6,8 @@ namespace TestProject.Core.ViewModel
 {
     public class AccountViewModel
     {
-        public decimal AccountId { get; set; }
-        public decimal? UserId { get; set; }
+        public long AccountId { get; set; }
+        public long UserId { get; set; }
         public string AccountType { get; set; }
     }
 }

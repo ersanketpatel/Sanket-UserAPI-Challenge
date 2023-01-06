@@ -5,10 +5,7 @@ using TestProject.Core.ViewModel;
 
 namespace TestProject.DAL.Repository
 {
-    public interface IUserRepository
+    public interface IUserRepository : IGenericRepository<User>
     {
-        Task<decimal> CreateUser(User user);
-        Task<List<UserViewModel>> ListUsers();
-        Task<UserViewModel> GetUser(decimal? userId);
     }
 }
